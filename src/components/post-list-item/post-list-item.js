@@ -12,18 +12,14 @@ export default class PostListItem extends Component {
     }
 
     onImportant() {
-        this.setState(({important}) => {
-            if(important === true) {
-                return important += false;
-            }
-            else {
-                return important += true;
-            }
-        })
+        this.setState(prevState => ({
+            important: !prevState.important
+        }))
     }
 
     render() {
-        const {label, like, important = false} = this.props;
+        const {label, like} = this.props;
+        const {important} = this.state;
 
         let classNames = "app-list-item d-flex justify-content-between";
             if(important) {
