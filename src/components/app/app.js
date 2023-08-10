@@ -17,9 +17,12 @@ export default class App extends Component {
                 {label: 'It so interesting', important: false, like: false, id: 2},
                 {label: 'I need a break', important: false, like: false, id: 3}
             ],
-            maxId: 4
+            body: ''
         };
         this.deleteItem = this.deleteItem.bind(this);
+        this.addItem = this.addItem.bind(this);
+
+        this.maxId = 4;
     }
 
     deleteItem(id) {
@@ -28,6 +31,20 @@ export default class App extends Component {
             const before = data.slice(0, index)
             const after = data.slice(index + 1)
             const newArr = [...before, ...after]
+            return {
+                data: newArr
+            }
+        })
+    }
+    addItem(body) {
+        const newItem = {
+            label: body,
+            important: false,
+            id: this.maxId++
+        }
+
+        this.setState(({data}) => {
+            const newArr = [...data, newItem]
             return {
                 data: newArr
             }
@@ -48,7 +65,9 @@ export default class App extends Component {
                     posts={data}
                     onDelete={this.deleteItem}
                 />
-                <PostAddForm/>
+                <PostAddForm
+                    onAdd={this.addItem}
+                />
             </div>
             
         )
