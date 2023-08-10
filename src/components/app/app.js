@@ -16,9 +16,24 @@ export default class App extends Component {
                 {label: 'I am learning React',important: true, like: false, id: 1},
                 {label: 'It so interesting', important: false, like: false, id: 2},
                 {label: 'I need a break', important: false, like: false, id: 3}
-            ]
-        }
+            ],
+            maxId: 4
+        };
+        this.deleteItem = this.deleteItem.bind(this);
     }
+
+    deleteItem(id) {
+        this.setState(({data}) => {
+            const index = data.findIndex((elem) => elem.id === id)
+            const before = data.slice(0, index)
+            const after = data.slice(index + 1)
+            const newArr = [...before, ...after]
+            return {
+                data: newArr
+            }
+        })
+    }
+
     render() {
         const {data} = this.state;
 
@@ -29,7 +44,10 @@ export default class App extends Component {
                     <SearchPanel/>
                     <PostStatusFilter/>
                 </div>
-                <PostList posts={data}/>
+                <PostList 
+                    posts={data}
+                    onDelete={this.deleteItem}
+                />
                 <PostAddForm/>
             </div>
             
